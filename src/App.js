@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import NavBar from './components/navbar';
-import Main from './components/main';
+import Users from './components/users';
 import './App.css';
+import Form from "./components/form";
 
 class App extends Component {
     state = {
@@ -21,7 +22,9 @@ class App extends Component {
         return (
             <React.Fragment>
                 <NavBar/>
-                <Main onDelete={this.handleDelete} users={this.state.users}/>
+                <Users onDelete={this.handleDelete} users={this.state.users}/>
+                <hr/>
+                <Form onDelete={this.handleSubmit}/>
             </React.Fragment>
         );
     }

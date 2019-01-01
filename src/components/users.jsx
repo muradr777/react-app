@@ -1,6 +1,7 @@
 import React from 'react';
+import User from './user';
 
-const Main = props => {
+const Users = props => {
     return (
         <main className="container">
             <table className="table table-borderless">
@@ -14,16 +15,7 @@ const Main = props => {
                 </thead>
                 <tbody>
                 {props.users.map(user => (
-                    <tr key={user.id}>
-                        <th scope="row">{user.id}</th>
-                        <td>{user.name}</td>
-                        <td>{user.surname}</td>
-                        <td>
-                            <button
-                                onClick={() => props.onDelete(user.id)}
-                                className="btn btn-danger btn-sm">Delete</button>
-                        </td>
-                    </tr>
+                    <User key={user.id} user={user} onDelete={props.onDelete}/>
                 ))}
                 </tbody>
             </table>
@@ -31,4 +23,4 @@ const Main = props => {
     );
 };
 
-export default Main;
+export default Users;
