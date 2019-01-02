@@ -7,7 +7,7 @@ const Form = props => {
             <div className="w-50 mx-auto">
                 <h5>Add User</h5>
                 <form onSubmit={props.onSubmit} noValidate>
-                    <div className="input-group mb-2">
+                    <div className="input-group mb-4">
                         <input
                             id="id"
                             type="text"
@@ -16,10 +16,10 @@ const Form = props => {
                             className={formErrors.id.length > 0 ? 'form-control border border-danger' : 'form-control'}
                             placeholder="ID"/>
                         {formErrors.id.length > 0 && (
-                            <small className="text-danger">{formErrors.id}</small>
+                            <small className="errorMessage text-danger">{formErrors.id}</small>
                         )}
                     </div>
-                    <div className="input-group mb-2">
+                    <div className="input-group mb-4">
                         <input
                             id="name"
                             type="text"
@@ -28,10 +28,10 @@ const Form = props => {
                             className={formErrors.name.length > 0 ? 'form-control border border-danger' : 'form-control'}
                             placeholder="Name"/>
                         {formErrors.name.length > 0 && (
-                            <small className="text-danger">{formErrors.name}</small>
+                            <small className="errorMessage text-danger">{formErrors.name}</small>
                         )}
                     </div>
-                    <div className="input-group mb-2">
+                    <div className="input-group mb-4">
                         <input
                             id="surname"
                             type="text"
@@ -40,7 +40,7 @@ const Form = props => {
                             className={formErrors.surname.length > 0 ? 'form-control border border-danger' : 'form-control'}
                             placeholder="Surname"/>
                         {formErrors.surname.length > 0 && (
-                            <small className="text-danger">{formErrors.surname}</small>
+                            <small className="errorMessage text-danger">{formErrors.surname}</small>
                         )}
                     </div>
                     <div className="input-group">

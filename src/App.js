@@ -28,14 +28,14 @@ class App extends Component {
         this.setState({users});
     };
 
-    formValid = ({formErrors, ...rest}) => {
+    formValid = ({formErrors, user}) => {
         let valid = true;
         //Validate user errors being empty
         Object.values(formErrors).forEach(value => {
             value.length > 0 && (valid = false);
         });
         //Validate user inputs being filled out
-        Object.values(rest).forEach(value => {
+        Object.values(user).forEach(value => {
             value === null && (valid = false);
         });
 
@@ -44,7 +44,7 @@ class App extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        const user = {};
+        const {user} = this.state;
 
         e.target.querySelectorAll('input').forEach((el) => {
             let {name, value} = el;
@@ -53,7 +53,9 @@ class App extends Component {
 
         this.setState({user});
 
-        if (this.formValid(this.state.user)) {
+        // console.log(user);
+
+        if (this.formValid(this.state)) {
             // Ajax request
             this.handleValid(user);
         } else {
@@ -68,9 +70,10 @@ class App extends Component {
 
         switch (name) {
             case 'id':
-                formErrors.id = isNaN(value)
-                    ? 'ID value must be integer!'
-                    : '';
+                formErrors.id =
+                    isNaN(value)
+                        ? 'ID value must be integer!'
+                        : '';
                 break;
             case 'name':
                 formErrors.name = value.length < 3
@@ -87,13 +90,12 @@ class App extends Component {
         }
 
         this.setState({formErrors});
-        console.log(this.state);
     };
 
     handleValid = user => {
         const users = this.state.users;
         users.push(user);
-        console.log(user);
+        // console.log(user);
         // this.setState({users});
     };
 
