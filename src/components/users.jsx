@@ -2,6 +2,8 @@ import React from 'react';
 import User from './user';
 
 const Users = props => {
+    let alert = !props.users.length ? 'There are no users.' : '';
+
     return (
         <main className="container">
             <table className="table table-borderless">
@@ -19,6 +21,7 @@ const Users = props => {
                 ))}
                 </tbody>
             </table>
+            <p className="text-center">{alert}</p>
         </main>
     );
 };

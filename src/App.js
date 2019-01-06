@@ -5,6 +5,10 @@ import './App.css';
 import Form from "./components/form";
 
 class App extends Component {
+    getIncrementedId = () => {
+        return Math.floor(Math.random() * Math.floor(9999));
+    };
+
     state = {
         users: [
             {id: 0, name: 'Murad', surname: 'Rustamov'},
@@ -15,37 +19,14 @@ class App extends Component {
             id: null,
             name: null,
             surname: null,
-            idValid: false,
-            nameValid: false,
-            surnameValid: false,
-            formValid: false
         },
-        formErrors: {id: '', name: '', surname: ''},
-    };
-
-    handleDelete = userId => {
-        const users = this.state.users.filter(u => u.id !== userId);
-        this.setState({users});
-    };
-
-    formValid = ({formErrors, user}) => {
-        let valid = true;
-        //Validate user errors being empty
-        Object.values(formErrors).forEach(value => {
-            value.length > 0 && (valid = false);
-        });
-        //Validate user inputs being filled out
-        Object.values(user).forEach(value => {
-            value === null && (valid = false);
-        });
-
-        return valid;
+        formErrors: {name: '', surname: ''}
     };
 
     handleSubmit = e => {
         e.preventDefault();
         const {user} = this.state;
-
+        user.id = this.getIncrementedId();
         e.target.querySelectorAll('input').forEach((el) => {
             let {name, value} = el;
             user[name] = value;
@@ -53,11 +34,10 @@ class App extends Component {
 
         this.setState({user});
 
-        // console.log(user);
-
         if (this.formValid(this.state)) {
             // Ajax request
-            this.handleValid(user);
+            this.pushIntoUsers(user);
+            this.resetState(e.target);
         } else {
             console.log('Form is invalid');
         }
@@ -92,12 +72,35 @@ class App extends Component {
         this.setState({formErrors});
     };
 
-    handleValid = user => {
-        const users = this.state.users;
-        users.push(user);
-        // console.log(user);
-        // this.setState({users});
+    resetState = form => {
+        let user = {id: '', name: '', surname: ''};
+        form.querySelectorAll('input').forEach((el) => el.value = null);
+        this.setState({user});
     };
+
+    pushIntoUsers = user => {
+        let users = this.state.users;
+        users.push(user);
+    };
+
+    handleDelete = userId => {
+        const users = this.state.users.filter(u => u.id !== userId);
+        this.setState({users});
+    };
+
+    formValid = ({formErrors, user}) => {
+        let valid = true;
+        //Validate user errors being empty
+        Object.values(formErrors).forEach(value => {
+            value.length > 0 && (valid = false);
+        });
+        //Validate user errors being empty
+        Object.values(user).forEach(value => {
+            value.length === 0 && (valid = false);
+        });
+        return valid;
+    };
+
 
     render() {
         return (
