@@ -3,7 +3,7 @@ import React from 'react';
 const User = props => {
     const {user, onDelete} = props;
     return (
-        <tr key={user.id}>
+        <tr>
             <th scope="row">{user.id}</th>
             <td>{user.name}</td>
             <td>{user.surname}</td>

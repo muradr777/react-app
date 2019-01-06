@@ -10,22 +10,22 @@ class App extends Component {
     };
 
     state = {
-        users: [
-            {id: 0, name: 'Murad', surname: 'Rustamov'},
-            {id: 1, name: 'John', surname: 'Doe'},
-            {id: 2, name: 'Hanson', surname: 'Deck'}
-        ],
+        users: [],
+        alert: {
+            type: null,
+            message: null
+        },
         user: {
             id: null,
             name: null,
             surname: null,
         },
-        formErrors: {name: '', surname: ''}
+        formErrors: {name: '', surname: '', formValid: false}
     };
 
     handleSubmit = e => {
         e.preventDefault();
-        const {user} = this.state;
+        const {alert, user, formErrors} = this.state;
         user.id = this.getIncrementedId();
         e.target.querySelectorAll('input').forEach((el) => {
             let {name, value} = el;
@@ -38,15 +38,40 @@ class App extends Component {
             // Ajax request
             this.pushIntoUsers(user);
             this.resetState(e.target);
+            formErrors.formValid = true;
+            alert.type = 'success';
+            alert.message = 'Successfully added.';
         } else {
-            console.log('Form is invalid');
+            this.setState({formErrors});
+            alert.type = 'warning';
+            alert.message = 'Please fill all the fields.';
         }
+        this.setState({alert});
     };
 
     handleChange = e => {
         e.preventDefault();
         const {name, value} = e.target;
-        let {formErrors} = this.state;
+        const {alert, user, formErrors} = this.state;
+        user[name] = value;
+
+        this.setState({user});
+
+        if (
+            user.name === null ||
+            user.surname === null ||
+            user.name.length === 0 ||
+            user.surname.length === 0
+        ) {
+            alert.type = 'warning';
+            alert.message = 'Please fill all the fields.'
+        } else {
+            alert.type = null;
+            alert.message = null;
+            formErrors.formValid = true;
+        }
+
+        this.setState({formErrors, alert});
 
         switch (name) {
             case 'id':
@@ -109,6 +134,7 @@ class App extends Component {
                 <Users onDelete={this.handleDelete} users={this.state.users}/>
                 <hr/>
                 <Form
+                    alertData={this.state.alert}
                     user={this.state.user}
                     formErrors={this.state.formErrors}
                     onChange={this.handleChange}

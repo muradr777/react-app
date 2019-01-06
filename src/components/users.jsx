@@ -17,7 +17,9 @@ const Users = props => {
                 </thead>
                 <tbody>
                 {props.users.map(user => (
-                    <User key={user.id} user={user} onDelete={props.onDelete}/>
+                    <User key={user.id.toString()}
+                          user={user}
+                          onDelete={props.onDelete}/>
                 ))}
                 </tbody>
             </table>
